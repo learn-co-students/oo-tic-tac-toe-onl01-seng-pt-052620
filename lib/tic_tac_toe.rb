@@ -70,8 +70,8 @@ class TicTacToe
 
     # move_input = gets
     # move_index = input_to_index(move_input)
-    board[player_index] = current_player
-    display_board
+    # board[player_index] = current_player
+    # display_board
 
 
   end
