@@ -95,6 +95,19 @@ class TicTacToe
     #      end
     #  end
 
+#["X", "O", " ", " ", " ", " ", " ", "O", "X"]
+
+# [0,1,2], 
+# [3,4,5],
+# [6,7,8],
+# [0,3,6],
+# [1,4,7],
+# [2,5,8],
+# [0,4,8],
+# [2,4,6]
+
+#try using detect instead of .any? below
+
 # THIS IS THE SOLUTION THAT THE COACH HAD
      def won?
          WIN_COMBINATIONS.any? do |combo|
@@ -119,6 +132,9 @@ class TicTacToe
             true
         end
     end
+
+# try using the && operator below
+
 
     def winner
         if won?.class == Array
