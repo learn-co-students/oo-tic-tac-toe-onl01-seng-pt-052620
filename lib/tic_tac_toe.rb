@@ -102,8 +102,30 @@ class TicTacToe
   end
 
   def over?
-    if draw? || if won?
+    if draw? || won?
       return true
+    end
+  end
+
+  def winner
+    if won?
+      if current_player == "X"
+        return "O"
+      elsif current_player == "O"
+        return "X"
+      end
+    end
+  end
+
+  def play
+    until over? do
+      turn
+    end
+    if won?
+      win = winner
+      puts "Congratulations #{win}!"
+    elsif draw?
+      puts "Cat's Game!"
     end
   end
 end
