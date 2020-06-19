@@ -2,6 +2,10 @@ require 'pry'
 
 class TicTacToe
 
+    #add attr_reader :board
+    #then refer to @board in the future to board
+    attr_reader :board
+
     def initialize(board = nil)
         @board = board || Array.new(9, " ")
     end
@@ -18,15 +22,16 @@ class TicTacToe
     ]
 
     def display_board
-        puts " #{@board[0]} | #{@board[1]} | #{@board[2]} " 
+        puts " #{board[0]} | #{board[1]} | #{board[2]} " 
         puts " ----------- "
-        puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
+        puts " #{board[3]} | #{board[4]} | #{board[5]} "
         puts " ----------- "
-        puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
+        puts " #{board[6]} | #{board[7]} | #{board[8]} "
     end
 
     def input_to_index(input)
-        index = input.to_i - 1
+        # @index = input.to_i - 1 <= this is what we have in the walkthrough so far
+        input.to_i - 1
     end
 
     def move(index, token="X")
@@ -34,23 +39,32 @@ class TicTacToe
     end
 
     def position_taken?(index)
-        if @board[index] == " "
-            false
-        else
-            true
-        end
+        board[index] != " " # <= I like this one more 
+        # board[index] == "X" || board[index] == "O"
     end
+
+
+    # def position_taken?(index)
+            # if @board[index] == " "
+        #     false
+        # else
+        #     true
+        # end
+    # end
 
     def valid_move?(index)
         !position_taken?(index) && index.between?(0,8)
     end
 
     def turn_count
-        @board.length - @board.count(" ")
+        board.length - board.count(" ")
+        # board.count {|space| space == "X" || space == "O"}
+        # ["O", "X"].include?(space) <= this would go inside of the brackets as if it were above
     end
 
     def current_player
         turn_count % 2 == 0 ? "X" : "O"
+        # turn_count.even? ? "X" : "O" # <= this is the same as above essentially
     end
 
     # def current_player
