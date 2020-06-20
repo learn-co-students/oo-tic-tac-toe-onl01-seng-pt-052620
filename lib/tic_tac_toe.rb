@@ -26,13 +26,20 @@ class TicTacToe
     board[location] = player
   end
 
+  # def position_taken?(index)
+  #   board[index] != (" ") 
+  # end
+
   def position_taken?(index)
-    board[index] != (" ") 
+    if board[index] == "" || board[index] == " " || board[index] == nil
+      return false
+    else
+      return true
+    end
   end
 
   def valid_move?(index)
-    board[index] == (0..9) 
-    board[index] == (" ")   
+    index.between?(0, 8) && board[index] == " "   
   end
 
   def turn_count
@@ -56,30 +63,69 @@ class TicTacToe
   end
 
   def turn
-    player_input = gets
+    puts "Please enter a number 1 - 9"
+    player_input = gets.strip
     player_index = input_to_index(player_input)
+    # binding.pry
     if valid_move?(player_index)
       board[player_index] = current_player
-      display_board
     else
-      player_input = gets
+      turn
     end
-
-    # valid_move?(player_index)
-    # current_player
-
-    # move_input = gets
-    # move_index = input_to_index(move_input)
-    # board[player_index] = current_player
-    # display_board
-
+    display_board
 
   end
 
+  def won?
 
+    WIN_COMBINATIONS.detect do |comb|
+      position_taken?(comb[0]) && board[comb[0]] == board[comb[1]] && board[comb[1]] == board[comb[2]]
+    end
 
+  end
 
+  def full?
+    board.all? {|i| i == "X" || i == "O"}
+ end
 
+ def draw?
+  if won?
+    return false
+  elsif full? == false
+    return false
+  else
+    return true
+  end
+ end
+
+ def over?
+  if won? || draw? == true
+    return true
+  else
+    return false
+  end
+ end
+
+ def winner
+  winning_array = won?
+  if winning_array
+    return board[winning_array[0]]
+  end
+ end
+
+ def play
+  while over? == false
+    turn
+  end
+  
+  if draw?
+    puts "Cat's Game!"
+  elsif winner == "X"
+    puts "Congratulations X!"
+  elsif winner == "O"
+    puts "Congratulations O!"
+  end
+ end
 
 
 
