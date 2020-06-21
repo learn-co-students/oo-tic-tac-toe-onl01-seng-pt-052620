@@ -2,8 +2,6 @@ require 'pry'
 
 class TicTacToe
 
-    #add attr_reader :board
-    #then refer to @board in the future to board
     attr_reader :board
 
     def initialize(board = nil)
@@ -30,27 +28,16 @@ class TicTacToe
     end
 
     def input_to_index(input)
-        # @index = input.to_i - 1 <= this is what we have in the walkthrough so far
         input.to_i - 1
     end
 
     def move(index, token="X")
-        @board[index] = token
+        board[index] = token
     end
 
     def position_taken?(index)
-        board[index] != " " # <= I like this one more 
-        # board[index] == "X" || board[index] == "O"
+        board[index] != " "
     end
-
-
-    # def position_taken?(index)
-            # if @board[index] == " "
-        #     false
-        # else
-        #     true
-        # end
-    # end
 
     def valid_move?(index)
         !position_taken?(index) && index.between?(0,8)
@@ -58,24 +45,11 @@ class TicTacToe
 
     def turn_count
         board.length - board.count(" ")
-        # board.count {|space| space == "X" || space == "O"}
-        # ["O", "X"].include?(space) <= this would go inside of the brackets as if it were above
     end
 
     def current_player
         turn_count % 2 == 0 ? "X" : "O"
-        # turn_count.even? ? "X" : "O" # <= this is the same as above essentially
     end
-
-    # def current_player
-    #     if turn_count == 0
-    #         "X"
-    #     elsif turn_count.even? == true
-    #         "X"
-    #     else
-    #         "O"
-    #     end
-    # end
 
     def turn
         puts "Please move by choosing a number from 1-9."
@@ -91,108 +65,43 @@ class TicTacToe
         end
     end
 
-# THIS IS WHAT I ORIGIONALLY CAME UP WITH
-    #  def won?
-    #      test = []
-    #      WIN_COMBINATIONS.each do |winning_combo|
-    #          test = winning_combo.collect do |space|
-    #              @board[space]
-    #          end
-    #          if test.uniq.size == 1
-    #              return winning_combo
-    #          else
-    #              false
-    #          end
-    #      end
-    #      if test.size > 1
-    #          false
-    #      end
-    #  end
-
-#["X", "O", " ", " ", " ", " ", " ", "O", "X"]
-
-# [0,1,2], 
-# [3,4,5],
-# [6,7,8],
-# [0,3,6],
-# [1,4,7],
-# [2,5,8],
-# [0,4,8],
-# [2,4,6]
-
-#try using detect instead of .any? below
-
-# THIS IS THE SOLUTION THAT THE COACH HAD
-     def won?
-         WIN_COMBINATIONS.any? do |combo|
-             if position_taken?(combo[0]) && @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
-                 return combo
-             end
-         end
-     end
+    def won?
+        WIN_COMBINATIONS.any? do |combo|
+            if position_taken?(combo[0]) && board[combo[0]] == board[combo[1]] && board[combo[1]] == board[combo[2]]
+                return combo
+            end
+        end
+    end
 
     def full?
-        @board.all? { |space| space == "X" || space == "O" }
+        board.all? { |space| space == "X" || space == "O" }
     end
 
     def draw?
-        if won?.class != Array && full? == true
-            true
-        end
+        full? && !won?
     end
 
     def over?
-        if draw? == true || won?.class == Array
-            true
-        end
+        !!won? || draw?
     end
-
-# try using the && operator below
-
 
     def winner
         if won?.class == Array
-            @board[won?[0]]
+            board[won?[0]]
         elsif over? == true
             nil
         end
     end
 
     def play
-        until over? == true || won? != false
+        until over?
             turn
         end
         if won?
             puts "Congratulations #{winner}!"
-        elsif draw?
+        else draw?
             puts "Cat's Game!"
-        else
-            nil
         end
     end
-
-        # while over? == false
-        #     puts "#{current_player} it is your turn."
-        #     turn
-        #     if draw?
-        #         puts "Cat\'s Game!"
-        #     end
-        # end
-        # if draw?
-        #     puts "Cat's Game!"
-        # elsif won?
-        #     puts "Congratulations #{winner}!"
-        # end
-
-
+    
 end
-
-# until the game is over
-#   take turns
-# end
-# if the game was won
-#   congratulate the winner
-# else if the game was a draw
-#   tell the players it ended in a draw
-# end
-
