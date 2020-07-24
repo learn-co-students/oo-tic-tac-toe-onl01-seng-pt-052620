@@ -87,4 +87,62 @@ class TicTacToe
     #   end
     # end
   end
+
+  def won?
+    WIN_COMBINATIONS.find do |win_combo|
+      # will be the integer index values for the win combination we're currently checking
+      position_1_index = win_combo[0]
+      position_2_index = win_combo[1]
+      position_3_index = win_combo[2]
+
+      # each of these will be "X", "O" or " "
+      position_1_token = board[position_1_index]
+      position_2_token = board[position_2_index]
+      position_3_token = board[position_3_index]
+
+      position_1_token == position_2_token && position_2_token == position_3_token && position_taken?(position_1_index)
+      # board[win_combo[0]] == board[win_combo[1]] && board[win_combo[1]] == board[win_combo[2]] && position_taken?(win_combo[0])
+    end
+  end
+
+  def full? 
+    # board.all? do |token|
+    #   ["X","O"].include?(token)
+    # end
+    board.all? do |token|
+      token == "X" || token == "O"
+    end
+    # (0..8).all? do |index|
+    #   position_taken?(index)
+    # end
+    # board.all? do |token|
+    #   token != " "
+    # end
+    # board.none? do |token|
+    #   token == " "
+    # end
+  end
+
+  def draw?
+    full? && !won?
+  end
+
+  def over?
+    !!(won? or draw?)
+  end
+
+  def winner 
+    won? && board[won?[0]]
+  end
+
+  def play 
+    until over?
+      turn
+    end
+    if won?
+      puts "Congratulations #{winner}!"
+    else 
+      puts "Cat's Game!"
+    end
+  end
 end
